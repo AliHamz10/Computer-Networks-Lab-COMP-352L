@@ -1,45 +1,50 @@
-# A Trivial TCP Server using sockets
-# It receives a message from a client.
-# Echoes the message back and terminates.
+"""
+TCP Echo Server
+--------------
+Listens for a client connection, receives a message, echoes it back, and terminates.
+"""
 
 import socket
 
 
-host = 'localhost'
-data_payload = 10 # how many bytes to receive
-port = 8000
+def main():
+    host = 'localhost'  # Server address
+    try:
+        port = int(input("Enter server port (default 8000): ") or "8000")  # Prompt for port
+    except ValueError:
+        print("Invalid port number. Exiting.")
+        return
+    data_payload = 256  # Max bytes to receive at once
+
+    # Create a TCP socket using context manager for proper cleanup
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)  # Enable address reuse
+        server_address = (host, port)
+        print(f"Starting up echo server on {host} port {port}")
+        try:
+            sock.bind(server_address)
+            sock.listen(1)  # Listen for a single connection
+            print("Waiting to receive message from client...")
+            client, address = sock.accept()
+            with client:
+                print(f"Connection established with {address}")
+                # Receive data from client
+                data = client.recv(data_payload)
+                if data:
+                    print(f"Received: {data.decode('utf-8')}")
+                    # Echo the data back to the client
+                    client.sendall(data)
+                    print(f"Sent {len(data)} bytes back to {address}")
+                else:
+                    print("No data received from client.")
+        except Exception as e:
+            print(f"Server error: {e}")
+        finally:
+            print("Server shutting down.")
 
 
-
-# Create a TCP socket
-# AF.INET: IPv4, SOCK_STREAM: TCP
-sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-# Enable reuse address/port 
-sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-# Bind the socket to the port
-server_address = (host, port)
-print (f"Starting up echo server  on {host} port {port}")
-sock.bind(server_address)
-
-
-# Listen to clients
-sock.listen() 
-
-print ("Waiting to receive message from client")
-client, address = sock.accept()
-
-data = client.recv(data_payload)
-print (f"Data: {data}")
-data = client.recv(data_payload)
-print (f"Data: {data}")
-data = client.recv(data_payload)
-print (f"Data: {data}")
-
-
-client.send(data)
-print (f"sent {len(data)} bytes back to {address}")
-# end connection
-client.close()
-sock.close() 
-   
-
+if __name__ == "__main__":
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\nServer terminated by user.")

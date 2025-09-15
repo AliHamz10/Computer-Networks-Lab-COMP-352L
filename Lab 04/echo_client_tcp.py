@@ -1,37 +1,44 @@
-# A simple TCP client using sockets
-# Establishes a connection to a server.
-# Sends a message.
-# Receives a reply and terminates.
-
+"""
+TCP Echo Client
+---------------
+Connects to a TCP echo server, sends a message, receives the echoed reply, and closes the connection.
+"""
 import socket
 
 
+def main():
+    host = 'localhost'  # Server address (localhost for local testing)
+    try:
+        port = int(input("Enter server port: "))  # Prompt user for server port
+    except ValueError:
+        print("Invalid port number. Exiting.")
+        return
 
-host = 'localhost'
-port = int(input("Enter server port: "))
+    message = "Test message. This will be echoed"  # Message to send
 
-""" A simple echo client """
-# Create a TCP/IP socket
-sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-# Connect the socket to the server
-server_address = (host, port)
-print (f"Connecting to {host} port {port}")
-sock.connect(server_address)
+    # Use context manager to ensure socket is closed properly
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+        server_address = (host, port)
+        print(f"Connecting to {host} port {port}")
+        try:
+            sock.connect(server_address)
+        except (ConnectionRefusedError, OSError) as e:
+            print(f"Connection failed: {e}")
+            return
 
-# Send data
-
-# Send data
-message = "Test message. This will be echoed"
-print (f"Sending {message}")
-sock.sendall(message.encode('utf-8'))
-# Look for the response
-
-data = sock.recv(256)
-
-print (f"Received: {data}")
-
-
-print ("Closing connection to the server")
-sock.close()
+        print(f"Sending: {message}")
+        try:
+            sock.sendall(message.encode('utf-8'))  # Send message to server
+            data = sock.recv(256)  # Receive response (up to 256 bytes)
+            print(f"Received: {data.decode('utf-8')}")  # Print decoded response
+        except Exception as e:
+            print(f"Error during communication: {e}")
+        finally:
+            print("Closing connection to the server.")
 
 
+if __name__ == "__main__":
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\nClient terminated by user.")
