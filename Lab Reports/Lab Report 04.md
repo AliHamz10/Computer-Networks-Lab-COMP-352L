@@ -58,9 +58,30 @@
 
 ---
 
-### Task 03 — TBD
+### Task 3 — Modify the client so user provides the message
 
-Add description, outputs, and screenshots when implemented.
+- **Script**: `Task 03 [echo_client_user_message).py` (interactive client)
+- **Helper**: `Task 03 [echo_server_helper).py` (local echo server for testing)
+- **Description**: Client prompts for host, port, and the message; sends bytes to server and prints any echoed response.
+
+Usage:
+
+```bash
+python3 "Lab 04/Task 03 [echo_server_helper).py"   # in one terminal
+python3 "Lab 04/Task 03 [echo_client_user_message).py"  # in another
+# accept defaults and type message when prompted
+```
+
+Expected interaction (example):
+
+```text
+Server host (default 127.0.0.1):
+Server port (default 5000):
+Message to send: hello echo
+Server responded: hello echo
+```
+
+**Screenshot**: `Lab 04/Screenshots/Task 03.png`
 
 ---
 
