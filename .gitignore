@@ -1,0 +1,61 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+**/.Spotlight-V100
+**/.Trashes
+**/.fseventsd
+*.icloud
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+env/
+ENV/
+env.bak/
+venv/
+.venv/
+.venv*/
+pip-wheel-metadata/
+*.egg-info/
+.eggs/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+.pytype/
+.coverage*
+coverage.xml
+htmlcov/
+
+# Logs
+*.log
+logs/
+
+# Editors/IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+*.swo
+
+# Node (if any tooling exists)
+node_modules/
+
+# OS (Windows)
+Thumbs.db
+Desktop.ini
+
+# Archives/Backups
+*.bak
+*.tmp
+~$*
+
+# Do NOT ignore lab assets like PCAPs or PDFs
+# (intentionally left unignored): *.pcapng, *.pdf
+
+
