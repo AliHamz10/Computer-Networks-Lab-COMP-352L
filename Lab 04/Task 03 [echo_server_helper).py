@@ -1,5 +1,6 @@
 
 #!/usr/bin/env python3
+import argparse
 import socket
 from contextlib import closing
 
@@ -17,4 +18,8 @@ def run_server(host: str = "127.0.0.1", port: int = 5000) -> None:
                     conn.sendall(data)
 
 if __name__ == "__main__":
-    run_server()
+    parser = argparse.ArgumentParser(description="Simple echo server for Task 03")
+    parser.add_argument("--host", default="127.0.0.1", help="Host/interface to bind (default 127.0.0.1)")
+    parser.add_argument("--port", type=int, default=5000, help="Port to bind (default 5000)")
+    args = parser.parse_args()
+    run_server(args.host, args.port)

@@ -18,21 +18,26 @@ def prompt() -> Tuple[str, int, str]:
 
 def send_message(host: str, port: int, message: str) -> str:
     data = message.encode('utf-8')
-    with socket.create_connection((host, port), timeout=5) as sock:
-        sock.sendall(data)
-        sock.shutdown(socket.SHUT_WR)
-        # read response (if echo server), but don't hang forever
-        sock.settimeout(5)
-        try:
-            chunks = []
-            while True:
-                chunk = sock.recv(4096)
-                if not chunk:
-                    break
-                chunks.append(chunk)
-            return b''.join(chunks).decode('utf-8', errors='replace')
-        except socket.timeout:
-            return ""
+    try:
+        with socket.create_connection((host, port), timeout=5) as sock:
+            sock.sendall(data)
+            sock.shutdown(socket.SHUT_WR)
+            # read response (if echo server), but don't hang forever
+            sock.settimeout(5)
+            try:
+                chunks = []
+                while True:
+                    chunk = sock.recv(4096)
+                    if not chunk:
+                        break
+                    chunks.append(chunk)
+                return b''.join(chunks).decode('utf-8', errors='replace')
+            except socket.timeout:
+                return ""
+    except ConnectionRefusedError:
+        raise SystemExit(f"Connection refused: nothing is listening on {host}:{port}. Start a server or use the helper.")
+    except socket.timeout:
+        raise SystemExit(f"Connection timed out to {host}:{port}. Check host/port and network.")
 
 
 def main() -> None:
