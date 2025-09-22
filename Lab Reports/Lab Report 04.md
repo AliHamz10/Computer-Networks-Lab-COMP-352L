@@ -44,29 +44,17 @@
 
 - **Script**: `Task 01 [services_names).py`
 - **Description**: Uses `socket.getservbyport` to map selected ports to standard service names for both TCP and UDP
-Example output (may vary by OS):
-
-```text
-Port  TCP Service  UDP Service
-20    ftp-data     ftp-data
-21    ftp          ftp
-22    ssh          ssh
-23    telnet       telnet
-25    smtp         smtp
-53    domain       domain
-67    bootps       bootps
-80    http         http
-110   pop3         pop3
-443   https        https
-```
 
 **Screenshot**: `Lab 04/Screenshots/Task 01.png`
 
 ---
 
-### Task 02 — TBD
+### Task 02 — Find the IP address of 10 different domains
 
-Add description, outputs, and screenshots when implemented.
+- **Script**: `Task 02 [resolve_domains).py`
+- **Description**: Resolves A records for 10 popular domains using `socket.gethostbyname`
+
+**Screenshot**: `Lab 04/Screenshots/Task 02.png`
 
 ---
 
