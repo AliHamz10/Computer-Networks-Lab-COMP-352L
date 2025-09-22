@@ -89,6 +89,32 @@ Server responded: hello echo
 
 ---
 
+### Task 04 — Display the server machine address
+
+- **Script**: `Task 03 [echo_server_helper).py` (updated)
+- **Description**: Server prints hostname, FQDN, and resolved IP addresses on startup, along with the bound host:port.
+
+Usage:
+
+```bash
+python3 "Lab 04/Task 03 [echo_server_helper).py" --host 127.0.0.1 --port 5000
+```
+
+Expected header (example):
+
+```text
+=== Server Host Information ===
+Hostname: <your-hostname>
+FQDN:     <your-fqdn>
+Addresses:
+  - 127.0.0.1
+  - ::1
+Listening on: 127.0.0.1:5000
+===============================
+```
+
+---
+
 ## Results
 
 - Verified service name resolution for 10 common ports across TCP/UDP

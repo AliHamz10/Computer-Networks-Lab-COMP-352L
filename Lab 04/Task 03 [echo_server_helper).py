@@ -5,11 +5,32 @@ import socket
 from contextlib import closing
 
 def run_server(host: str = "127.0.0.1", port: int = 5000) -> None:
+    # Gather and display local machine addressing information
+    try:
+        hostname = socket.gethostname()
+        hostfqdn = socket.getfqdn()
+        # Collect unique IPv4/IPv6 addresses from getaddrinfo
+        infos = socket.getaddrinfo(hostname, None)
+        addrs = sorted({ai[4][0] for ai in infos})
+    except Exception:
+        hostname = hostfqdn = "unknown"
+        addrs = []
+
     with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as s:
         s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         s.bind((host, port))
         s.listen(5)
-        print(f"Echo server listening on {host}:{port}")
+        print("=== Server Host Information ===")
+        print(f"Hostname: {hostname}")
+        print(f"FQDN:     {hostfqdn}")
+        if addrs:
+            print("Addresses:")
+            for a in addrs:
+                print(f"  - {a}")
+        else:
+            print("Addresses: (none detected)")
+        print(f"Listening on: {host}:{port}")
+        print("===============================")
         while True:
             conn, addr = s.accept()
             with conn:
