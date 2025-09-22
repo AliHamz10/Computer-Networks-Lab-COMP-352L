@@ -113,6 +113,10 @@ Listening on: 127.0.0.1:5000
 ===============================
 ```
 
+**Screenshot**:
+
+![Task 04 Server Info](../Lab%2004/Screenshots/Task%2004.png)
+
 ---
 
 ## Results
