@@ -81,7 +81,11 @@ Message to send: hello echo
 Server responded: hello echo
 ```
 
-**Screenshot**: `Lab 04/Screenshots/Task 03.png`
+**Screenshots**:
+
+![Task 03 Echo Server](../Lab%2004/Screenshots/Task%2003%20[Echo%20Server%20Helper].png)
+
+![Task 03 Echo Client](../Lab%2004/Screenshots/Task%2003%20[Echo%20Client%20User].png)
 
 ---
 
