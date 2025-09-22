@@ -119,6 +119,34 @@ Listening on: 127.0.0.1:5000
 
 ---
 
+### Task 05 — Greet if user's name appears in the message
+
+- **Server**: `Task 05 [greet_server).py` (arg `--user <Name>`, default port 5050)
+- **Client**: `Task 05 [greet_client).py` (send arbitrary message)
+- **Behavior**: If the message contains the username token (case-insensitive), server replies `Hello, <Name>!`; otherwise `Unknown user`.
+
+Usage:
+
+```bash
+# Terminal 1
+python3 "Lab 04/Task 05 [greet_server).py" --user Ali --port 5051
+
+# Terminal 2
+python3 "Lab 04/Task 05 [greet_client).py" --port 5051 "Hi I'm Ali"
+python3 "Lab 04/Task 05 [greet_client).py" --port 5051 "Hello there"
+```
+
+Expected output:
+
+```text
+Hello, Ali!
+Unknown user
+```
+
+**Screenshots**: `Lab 04/Screenshots/Task 05 - with name.png`, `Lab 04/Screenshots/Task 05 - without name.png`
+
+---
+
 ## Results
 
 - Verified service name resolution for 10 common ports across TCP/UDP
