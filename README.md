@@ -33,6 +33,12 @@ This repo contains lab materials, PCAPs, code, and reports for COMP-352L.
   - Start a server script (e.g., `python Lab\ 04/echo_server_tcp.py`)
   - In another terminal, run the client (e.g., `python Lab\ 04/echo_client_tcp.py`)
 
+### Lab 04 — Selected Evidence
+
+- Task 05 (greeting behavior):
+
+![Task 05](Lab%2004/Screenshots/Task%2005.png)
+
 ### Notes
 
 - Keep file names intact, including `#` symbols in screenshot names.
