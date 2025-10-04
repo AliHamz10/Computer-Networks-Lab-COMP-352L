@@ -64,15 +64,15 @@ def main():
     print()
     
     # Check if server script exists
-    server_script = os.path.join(os.path.dirname(__file__), "iterated_server.py")
+    server_script = os.path.join(os.path.dirname(__file__), "Task 01 [iterated_server].py")
     if not os.path.exists(server_script):
-        print("Error: iterated_server.py not found!")
+        print("Error: Task 01 [iterated_server].py not found!")
         return
     
     # Check if client script exists
-    client_script = os.path.join(os.path.dirname(__file__), "simple_client.py")
+    client_script = os.path.join(os.path.dirname(__file__), "Task 01 [simple_client].py")
     if not os.path.exists(client_script):
-        print("Error: simple_client.py not found!")
+        print("Error: Task 01 [simple_client].py not found!")
         return
     
     print("Starting 5 clients with staggered connections...")
