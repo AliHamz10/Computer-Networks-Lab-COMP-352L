@@ -8,15 +8,16 @@ import socket
 import time
 import argparse
 import random
+from typing import Optional
 
 class SimpleClient:
-    def __init__(self, host='localhost', port=5000):
+    def __init__(self, host: str = 'localhost', port: int = 5000):
         self.host = host
         self.port = port
-        self.socket = None
-        self.client_number = None
+        self.socket: Optional[socket.socket] = None
+        self.client_number: Optional[int] = None
         
-    def connect_to_server(self):
+    def connect_to_server(self) -> None:
         """Connect to the server and start communication"""
         try:
             # Create socket
@@ -37,7 +38,7 @@ class SimpleClient:
                     # Extract number from "Connected to Client X"
                     self.client_number = int(welcome_msg.split()[-1])
                     print(f"I am Client {self.client_number}")
-                except:
+                except (ValueError, IndexError):
                     self.client_number = random.randint(1, 100)  # Fallback
                     print(f"Could not determine client number, using {self.client_number}")
             else:
@@ -54,12 +55,20 @@ class SimpleClient:
         finally:
             self.cleanup()
     
-    def communicate(self):
+    def communicate(self) -> None:
         """Communicate with server - send messages and receive responses"""
+        if self.client_number is None:
+            print("Error: Client number not set")
+            return
+            
         print(f"\nClient {self.client_number} ready to communicate!")
         print("Type messages to send to server (or 'quit' to exit)")
         
         try:
+            if not self.socket:
+                print("Error: No socket connection")
+                return
+                
             # Send initial message with client number
             initial_msg = f"Client {self.client_number}"
             self.socket.send(initial_msg.encode('utf-8'))
@@ -77,6 +86,10 @@ class SimpleClient:
                     
                     if message.lower() in ['quit', 'exit', 'q']:
                         print("Disconnecting...")
+                        break
+                    
+                    if not self.socket:
+                        print("Error: Connection lost")
                         break
                     
                     # Send message to server
@@ -97,13 +110,16 @@ class SimpleClient:
         except Exception as e:
             print(f"Communication error: {e}")
     
-    def cleanup(self):
+    def cleanup(self) -> None:
         """Clean up client resources"""
         if self.socket:
-            self.socket.close()
-            print("Client socket closed")
+            try:
+                self.socket.close()
+                print("Client socket closed")
+            except:
+                pass
 
-def main():
+def main() -> None:
     """Main function to run the client"""
     parser = argparse.ArgumentParser(description='Simple TCP Client for Lab 05')
     parser.add_argument('--host', default='localhost', help='Server host (default: localhost)')
@@ -113,7 +129,10 @@ def main():
     
     # Create and start client
     client = SimpleClient(args.host, args.port)
-    client.connect_to_server()
+    try:
+        client.connect_to_server()
+    except KeyboardInterrupt:
+        print("\nClient shutdown complete.")
 
 if __name__ == "__main__":
     main()
