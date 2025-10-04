@@ -11,8 +11,8 @@ from typing import Optional
 class EnhancedClient:
     def __init__(self):
         self.socket: Optional[socket.socket] = None
-        self.host = None
-        self.port = None
+        self.host: Optional[str] = None
+        self.port: Optional[int] = None
         
     def get_server_info(self) -> None:
         """Get server IP address and port from user"""
@@ -28,6 +28,10 @@ class EnhancedClient:
     
     def connect_to_server(self) -> None:
         """Connect to the server and start conversation"""
+        if not self.host or not self.port:
+            print("Error: Server host and port not set")
+            return
+            
         try:
             # Create socket
             self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -57,12 +61,20 @@ class EnhancedClient:
         print()
         
         try:
+            if not self.socket:
+                print("Error: No socket connection")
+                return
+                
             while True:
                 # Get user input
                 message = input()
                 
                 if not message.strip():
                     continue
+                
+                if not self.socket:
+                    print("Error: Connection lost")
+                    break
                 
                 # Send message to server
                 self.socket.send(message.encode('utf-8'))
