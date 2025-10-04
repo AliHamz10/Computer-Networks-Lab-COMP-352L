@@ -20,7 +20,7 @@ class SimpleClient:
         """Connect to the server and start communication"""
         try:
             # Create socket
-            self.socket = socket.socket(socket.AF_INET, socket.SOCKET_STREAM)
+            self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             
             # Connect to server
             print(f"Connecting to server at {self.host}:{self.port}...")
