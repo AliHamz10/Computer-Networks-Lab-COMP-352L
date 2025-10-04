@@ -7,8 +7,8 @@
   - **Name**: Ali Hamza, **Reg No.**: B23F0063AI106
   - **Name**: Zarmeena Jawad, **Reg No.**: B23F0115AI125
 - **Instructor**: Mr. Jarullah
-- **Date Performed**: 2025-01-15
-- **Date Submitted**: 2025-01-18
+- **Date Performed**: 2025-01-13 (Monday)
+- **Date Submitted**: 2025-01-20 (Today)
 
 ---
 
@@ -54,6 +54,7 @@
 - **Description**: Tests server with backlog=3 using threading to handle multiple concurrent clients
 
 **Key Features**:
+
 - Server uses `socket.listen(3)` for backlog limit
 - Threading handles multiple clients concurrently
 - Clients automatically determine their number from server welcome message
@@ -94,6 +95,7 @@ Sent to Client 1: Connected to Client 1
 - **Description**: Server sends connection established message immediately and echoes all client messages with "(Echoed)" suffix
 
 **Key Features**:
+
 - Server sends `[Server]Connection Established.` immediately after connection
 - Echoes messages with `[Server] message (Echoed)` format
 - Handles "disconnect" message with `[Server]Connection terminated.`
@@ -139,6 +141,7 @@ Enter server port: 8000
 - **Description**: Implements complete authentication system with user registration, login validation, and credential persistence
 
 **Key Features**:
+
 - User registration with username/password confirmation
 - Login system with retry logic for incorrect credentials
 - Credential storage in JSON file with dictionary backup
@@ -146,12 +149,14 @@ Enter server port: 8000
 - Exact console output format matching requirements
 
 **Registration Flow**:
+
 - Server prompts: `[Server] Welcome! Would you like to (1) Register or (2) Login?`
 - Client responds: `[Client] 1`
 - Server prompts for username and password with confirmation
 - Server confirms: `[Server] User 'username' registered successfully!`
 
 **Login Flow**:
+
 - Server prompts: `[Server] Welcome! Would you like to (1) Register or (2) Login?`
 - Client responds: `[Client] 2`
 - Username validation with "user unknown. Try again" error
@@ -241,6 +246,7 @@ Expected interaction (login example):
 ## Appendix
 
 ### Task 01 Commands:
+
 ```bash
 # Start server
 python3 "Lab 05/Task 01 [iterated_server].py" --port 5000
@@ -253,6 +259,7 @@ python3 "Lab 05/Task 01 [test_multiple_clients].py"
 ```
 
 ### Task 02 Commands:
+
 ```bash
 # Start enhanced server
 python3 "Lab 05/Task 02 [enhanced_server].py" --port 8000
@@ -262,6 +269,7 @@ python3 "Lab 05/Task 02 [enhanced_client].py"
 ```
 
 ### Task 03 Commands:
+
 ```bash
 # Start authentication server
 python3 "Lab 05/Task 03 [auth_server].py" --port 8000
@@ -271,6 +279,7 @@ python3 "Lab 05/Task 03 [auth_client].py"
 ```
 
 ### Files Created:
+
 - `user_credentials.json` - Persistent credential storage
 - All screenshots saved in `Lab 05/Screenshots/`
 - Complete source code with proper documentation and error handling
