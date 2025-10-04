@@ -8,9 +8,11 @@ import subprocess
 import time
 import sys
 import os
+from typing import Optional
 
-def run_client(client_id, delay=0):
+def run_client(client_id: int, delay: int = 0) -> None:
     """Run a single client instance"""
+    process: Optional[subprocess.Popen] = None
     try:
         print(f"Starting Client {client_id}...")
         
@@ -43,11 +45,15 @@ def run_client(client_id, delay=0):
             
     except subprocess.TimeoutExpired:
         print(f"Client {client_id} timed out")
-        process.kill()
+        if process:
+            process.kill()
     except Exception as e:
         print(f"Error running Client {client_id}: {e}")
+    finally:
+        if process and process.poll() is None:
+            process.terminate()
 
-def main():
+def main() -> None:
     """Main function to test multiple clients"""
     print("Lab 05 - Task 01: Testing Multiple Clients")
     print("=" * 50)
