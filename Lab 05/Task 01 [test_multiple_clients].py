@@ -19,7 +19,11 @@ def run_client(client_id, delay=0):
             time.sleep(delay)
         
         # Run the client script
-        client_script = os.path.join(os.path.dirname(__file__), "simple_client.py")
+        client_script = os.path.join(os.path.dirname(__file__), "Task 01 [simple_client].py")
+        
+        # Create input for the client
+        input_data = f"Hello from Client {client_id}\nTesting message {client_id}\nquit\n"
+        
         process = subprocess.Popen(
             [sys.executable, client_script],
             stdin=subprocess.PIPE,
@@ -28,20 +32,8 @@ def run_client(client_id, delay=0):
             text=True
         )
         
-        # Send some test messages
-        test_messages = [
-            f"Hello from Client {client_id}",
-            f"Testing message {client_id}",
-            "quit"
-        ]
-        
-        for msg in test_messages:
-            process.stdin.write(msg + "\n")
-            process.stdin.flush()
-            time.sleep(0.5)  # Small delay between messages
-        
-        # Wait for process to complete
-        stdout, stderr = process.communicate(timeout=10)
+        # Send input and wait for completion
+        stdout, stderr = process.communicate(input=input_data, timeout=15)
         
         print(f"Client {client_id} output:")
         print(stdout)
