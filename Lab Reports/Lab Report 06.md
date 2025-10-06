@@ -357,17 +357,121 @@ ID     Username         Address             Status       Connected
 
 ---
 
+### Task 04 — Group Chat with Broadcast Messages
+
+- **Server**: `Task 04 [multithreaded_auth_server_with_group_chat].py` (enhanced server with group chat)
+- **Client**: `Task 04 [group_chat_client].py` (interactive group chat client)
+- **Test Program**: `Task 04 [test_group_chat].py` (automated group chat testing)
+- **Description**: Implements group chat functionality with broadcast messages and sender ID tracking
+
+**Key Features Added**:
+
+- **Broadcast Command**: `broadcast:message` sends messages to all clients in chat room
+- **Sender ID Tracking**: All messages include sender ID in format `[Group Chat] Username (ID:X): message`
+- **Group Chat Room**: Clients must join chat room to participate in group communication
+- **Real-time Broadcasting**: Messages instantly sent to all connected clients
+- **Chat Room Management**: Track and display chat room members with `chatroom` command
+- **Dual Messaging**: Support for both broadcast (group) and private messages
+
+**Group Chat System**:
+
+- **Chat Room**: `self.chat_room = []` - List of client IDs in chat room
+- **Broadcast Function**: `broadcast_message()` sends to all clients in chat room
+- **Sender ID Format**: `[Group Chat] {username} (ID:{client_id}): {message}`
+- **Join Chat**: Clients must explicitly join chat room using option 3
+- **Real-time Updates**: Chat room membership tracked in real-time
+
+**Message Types**:
+
+- **Broadcast Messages**: `broadcast:message` - Sent to all clients in chat room
+- **Private Messages**: `chat:message` - Private server response
+- **Join Chat**: `3` - Join the group chat room
+- **Logout**: `logout` - Leave chat room and logout
+
+**Server Commands**:
+
+- **`chatroom`**: Shows current chat room members
+- **`list`**: Displays all connected clients
+- **`count`**: Shows client counts including chat room members
+- **`exit`**: Graceful server shutdown
+
+Usage:
+
+```bash
+# Terminal 1 - Start server with group chat
+python3 "Task 04 [multithreaded_auth_server_with_group_chat].py" --port 8000
+
+# Terminal 2, 3, 4 - Connect group chat clients
+python3 "Task 04 [group_chat_client].py" --port 8000
+
+# Terminal 1 - Use server commands
+chatroom
+list
+exit
+```
+
+Expected server output:
+
+```text
+=== Multithreaded Auth Server with Group Chat ===
+Host: 127.0.0.1
+Port: 8000
+Time: 2025-10-06 11:00:00
+Waiting for connections...
+Commands: 'exit' to shutdown, 'list' to show connected clients, 'chatroom' to show chat members
+======================================================================
+
+[CONNECTION] New client from ('127.0.0.1', 54321)
+[CLIENT-1] Added to client tracking
+[CLIENT-COUNT] Active: 1 | Logged in: 0 | In chat: 0
+
+[CLIENT-1] User 'alice' logged in successfully
+[CLIENT-1] alice joined chat room
+[CLIENT-COUNT] Active: 1 | Logged in: 1 | In chat: 1
+
+[BROADCAST] Sent to Client 1: Hello everyone!
+[Group Chat] alice (ID:1): Hello everyone!
+
+[CONNECTION] New client from ('127.0.0.1', 54322)
+[CLIENT-2] Added to client tracking
+[CLIENT-2] User 'bob' logged in successfully
+[CLIENT-2] bob joined chat room
+[CLIENT-COUNT] Active: 2 | Logged in: 2 | In chat: 2
+
+[BROADCAST] Sent to Client 1: Hi alice!
+[BROADCAST] Sent to Client 2: Hi alice!
+[Group Chat] bob (ID:2): Hi alice!
+
+chatroom
+
+[CHAT-ROOM] Chat room members (2):
+--------------------------------------------------
+Client 1: alice
+Client 2: bob
+--------------------------------------------------
+```
+
+**Screenshots**:
+
+![Task 04 Group Chat Server](../Lab%2006/Screenshots/Task%2004%20-%2000.png)
+
+![Task 04 Group Chat Interaction](../Lab%2006/Screenshots/Task%2004%20-01.png)
+
+---
+
 ## Conclusion
 
 - Completed Task 01 with full multithreaded server implementation
 - Completed Task 02 with clean server shutdown and thread management
 - Completed Task 03 with comprehensive client tracking and management system
+- Completed Task 04 with group chat functionality and broadcast messaging
 - Demonstrated understanding of concurrent programming and authentication systems
 - Successfully implemented multiple client support with proper resource management
 - Built robust error handling and user feedback mechanisms
 - Implemented graceful server termination with proper thread joining
 - Created comprehensive client tracking with dictionary management and server commands
 - Built real-time client monitoring with detailed information display
+- Implemented group chat with broadcast messaging and sender ID tracking
 - Created comprehensive test suite for validation and performance measurement
 - All code follows professional standards with proper documentation and type safety
 - Ready for advanced networking concepts and production server applications
@@ -402,6 +506,9 @@ python3 "Task 01 [test_multiple_clients].py" --clients 10
 - `Task 02 [test_shutdown].py` - Automated shutdown testing program
 - `Task 03 [multithreaded_auth_server_with_client_tracking].py` - Server with client tracking
 - `Task 03 [test_client_tracking].py` - Automated client tracking test program
+- `Task 04 [multithreaded_auth_server_with_group_chat].py` - Server with group chat functionality
+- `Task 04 [group_chat_client].py` - Interactive group chat client
+- `Task 04 [test_group_chat].py` - Automated group chat test program
 - `user_credentials.json` - Persistent user credential storage
 - All screenshots saved in `Lab 06/Screenshots/`
 
@@ -419,3 +526,6 @@ python3 "Task 01 [test_multiple_clients].py" --clients 10
 - Client tracking with dictionary management
 - Real-time client monitoring and display
 - Server-side commands for client management
+- Group chat with broadcast messaging
+- Sender ID tracking in all messages
+- Chat room management and membership tracking
