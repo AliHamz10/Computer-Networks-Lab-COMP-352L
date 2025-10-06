@@ -181,12 +181,96 @@ Password: password123
 
 ---
 
+## Tasks Summary and Evidence (Continued)
+
+### Task 02 — Server Clean Shutdown
+
+- **Server**: `Task 02 [multithreaded_auth_server_with_shutdown].py` (enhanced server with shutdown capability)
+- **Test Program**: `Task 02 [test_shutdown].py` (automated shutdown testing)
+- **Description**: Adds the ability to terminate the server cleanly with proper thread management
+
+**Key Features Added**:
+
+- **Exit Command**: Type `exit` in server console to initiate graceful shutdown
+- **Thread Management**: All active client threads are tracked and properly joined before exit
+- **Graceful Shutdown**: Server waits for all client threads to complete (5-second timeout per thread)
+- **Clean Resource Management**: Proper socket closure and thread cleanup
+- **Shutdown Monitoring**: Background thread monitors console input for exit command
+
+**Shutdown Process**:
+
+1. User types `exit` in server console
+2. Server sets shutdown flag and stops accepting new connections
+3. Main socket is closed to prevent new connections
+4. Server waits for all active client threads to complete
+5. Each thread is given up to 5 seconds to finish gracefully
+6. Server reports completion of thread joining process
+7. Clean termination with proper resource cleanup
+
+**Thread Management**:
+
+- Active threads are tracked in `self.active_threads` list
+- Each client thread removes itself from the list when completed
+- Shutdown process waits for all threads with `thread.join(timeout=5.0)`
+- Timeout prevents indefinite waiting for unresponsive threads
+- Proper cleanup ensures no zombie threads remain
+
+Usage:
+
+```bash
+# Terminal 1 - Start server with shutdown capability
+python3 "Task 02 [multithreaded_auth_server_with_shutdown].py" --port 8000
+
+# Terminal 2 - Connect client and interact
+python3 "Task 01 [auth_client].py" --port 8000
+
+# Terminal 1 - Type 'exit' to shutdown
+exit
+```
+
+Expected shutdown output:
+
+```text
+=== Multithreaded Auth Server Started ===
+Host: 127.0.0.1
+Port: 8000
+Time: 2025-10-06 10:30:00
+Waiting for connections...
+Type 'exit' and press Enter to shutdown the server
+========================================
+
+[CONNECTION] New client from ('127.0.0.1', 54321)
+[CLIENT-1] Thread started from ('127.0.0.1', 54321)
+[CLIENT-1] User 'testuser' registered successfully
+[CLIENT-1] User 'testuser' logged in successfully
+[CLIENT-1] testuser says: Hello server!
+[CLIENT-1] User 'testuser' logged out
+[CLIENT-1] Connection closed
+
+exit
+
+[SHUTDOWN] Exit command received...
+[SHUTDOWN] Initiating graceful server shutdown...
+[SHUTDOWN] Main socket closed
+[SHUTDOWN] Waiting for 0 active threads to complete...
+[SHUTDOWN] All threads have been processed
+[SHUTDOWN] Server shutdown complete
+```
+
+**Screenshot**:
+
+![Task 02 Server Shutdown](../Lab%2006/Screenshots/Task%2002.png)
+
+---
+
 ## Conclusion
 
 - Completed Task 01 with full multithreaded server implementation
+- Completed Task 02 with clean server shutdown and thread management
 - Demonstrated understanding of concurrent programming and authentication systems
 - Successfully implemented multiple client support with proper resource management
 - Built robust error handling and user feedback mechanisms
+- Implemented graceful server termination with proper thread joining
 - Created comprehensive test suite for validation and performance measurement
 - All code follows professional standards with proper documentation and type safety
 - Ready for advanced networking concepts and production server applications
@@ -217,6 +301,8 @@ python3 "Task 01 [test_multiple_clients].py" --clients 10
 - `Task 01 [auth_client].py` - Interactive authentication client
 - `Task 01 [test_multiple_clients].py` - Automated concurrent test program
 - `Task 01 [simple_test].py` - Simple socket communication test
+- `Task 02 [multithreaded_auth_server_with_shutdown].py` - Enhanced server with shutdown capability
+- `Task 02 [test_shutdown].py` - Automated shutdown testing program
 - `user_credentials.json` - Persistent user credential storage
 - All screenshots saved in `Lab 06/Screenshots/`
 
@@ -229,3 +315,5 @@ python3 "Task 01 [test_multiple_clients].py" --clients 10
 - Persistent credential storage
 - Comprehensive error handling
 - Automated testing framework
+- Clean server shutdown with thread management
+- Graceful termination with proper resource cleanup
