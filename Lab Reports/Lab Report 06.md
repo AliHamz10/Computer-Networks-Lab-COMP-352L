@@ -263,14 +263,111 @@ exit
 
 ---
 
+### Task 03 — Client Tracking and Management
+
+- **Server**: `Task 03 [multithreaded_auth_server_with_client_tracking].py` (enhanced server with client tracking)
+- **Test Program**: `Task 03 [test_client_tracking].py` (automated client tracking testing)
+- **Description**: Adds client tracking capabilities with dictionary management and server commands
+
+**Key Features Added**:
+
+- **Client Dictionary**: Maintains `{client_id: socket}` mapping for all connected clients
+- **Client Information Tracking**: Stores username, address, connection time, and login status
+- **Active Client Display**: Shows count of active and logged-in clients every 30 seconds
+- **List Command**: Server-side `list` command to display all connected clients in table format
+- **Count Command**: Server-side `count` command for immediate client count display
+- **Real-time Updates**: Client tracking updates automatically on connect/disconnect/login/logout
+
+**Client Tracking System**:
+
+- **Dictionary Structure**: `self.connected_clients = {client_id: socket}`
+- **Client Info**: `self.client_info = {client_id: {username, address, connected_time, logged_in}}`
+- **Thread Safety**: All client tracking operations protected with locks
+- **Automatic Cleanup**: Clients removed from tracking on disconnect
+- **Status Updates**: Login/logout status tracked in real-time
+
+**Server Commands**:
+
+- **`list`**: Displays detailed table of all connected clients
+- **`count`**: Shows immediate count of active and logged-in clients
+- **`exit`**: Graceful server shutdown with thread management
+
+**Client Information Display**:
+
+The `list` command shows:
+- Client ID
+- Username (or "Not logged in")
+- Address (IP:Port)
+- Status (Connected/Logged in)
+- Connected time
+
+Usage:
+
+```bash
+# Terminal 1 - Start server with client tracking
+python3 "Task 03 [multithreaded_auth_server_with_client_tracking].py" --port 8000
+
+# Terminal 2, 3, 4 - Connect multiple clients
+python3 "Task 01 [auth_client].py" --port 8000
+
+# Terminal 1 - Use server commands
+list
+count
+exit
+```
+
+Expected server output:
+
+```text
+=== Multithreaded Auth Server with Client Tracking ===
+Host: 127.0.0.1
+Port: 8000
+Time: 2025-10-06 10:45:00
+Waiting for connections...
+Commands: 'exit' to shutdown, 'list' to show connected clients
+============================================================
+
+[CONNECTION] New client from ('127.0.0.1', 54321)
+[CLIENT-1] Added to client tracking
+[CLIENT-COUNT] Active clients: 1 | Logged in: 0
+
+[CONNECTION] New client from ('127.0.0.1', 54322)
+[CLIENT-2] Added to client tracking
+[CLIENT-COUNT] Active clients: 2 | Logged in: 0
+
+[CLIENT-1] User 'user1' logged in successfully
+[CLIENT-COUNT] Active clients: 2 | Logged in: 1
+
+list
+
+[CLIENT-LIST] Connected clients (2):
+--------------------------------------------------------------------------------
+ID     Username         Address             Status       Connected           
+--------------------------------------------------------------------------------
+1      user1            127.0.0.1:54321    Logged in    10:45:15            
+2      Not logged in    127.0.0.1:54322    Connected    10:45:20            
+--------------------------------------------------------------------------------
+```
+
+**Screenshots**:
+
+![Task 03 Server with Client Tracking](../Lab%2006/Screenshots/Task%2003%20-%2000.png)
+
+![Task 03 List Command Output](../Lab%2006/Screenshots/Task%2003%20-%2001.png)
+
+---
+
 ## Conclusion
 
 - Completed Task 01 with full multithreaded server implementation
 - Completed Task 02 with clean server shutdown and thread management
+- Completed Task 03 with comprehensive client tracking and management system
 - Demonstrated understanding of concurrent programming and authentication systems
 - Successfully implemented multiple client support with proper resource management
 - Built robust error handling and user feedback mechanisms
 - Implemented graceful server termination with proper thread joining
+- Created comprehensive client tracking with dictionary management and server commands
+- Built real-time client monitoring with detailed information display
 - Created comprehensive test suite for validation and performance measurement
 - All code follows professional standards with proper documentation and type safety
 - Ready for advanced networking concepts and production server applications
@@ -303,6 +400,8 @@ python3 "Task 01 [test_multiple_clients].py" --clients 10
 - `Task 01 [simple_test].py` - Simple socket communication test
 - `Task 02 [multithreaded_auth_server_with_shutdown].py` - Enhanced server with shutdown capability
 - `Task 02 [test_shutdown].py` - Automated shutdown testing program
+- `Task 03 [multithreaded_auth_server_with_client_tracking].py` - Server with client tracking
+- `Task 03 [test_client_tracking].py` - Automated client tracking test program
 - `user_credentials.json` - Persistent user credential storage
 - All screenshots saved in `Lab 06/Screenshots/`
 
@@ -317,3 +416,6 @@ python3 "Task 01 [test_multiple_clients].py" --clients 10
 - Automated testing framework
 - Clean server shutdown with thread management
 - Graceful termination with proper resource cleanup
+- Client tracking with dictionary management
+- Real-time client monitoring and display
+- Server-side commands for client management
