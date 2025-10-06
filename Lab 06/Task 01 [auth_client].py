@@ -23,6 +23,10 @@ class AuthClient:
             self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.socket.connect((self.host, self.port))
             print(f"[Client] Connected to {self.host}:{self.port}")
+            
+            # Receive welcome message from server
+            welcome = self.socket.recv(1024).decode('utf-8')
+            print(f"[Client] Server welcome: {welcome}")
             return True
         except Exception as e:
             print(f"[Client] Connection failed: {e}")

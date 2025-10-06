@@ -136,7 +136,10 @@ class MultithreadedAuthServer:
                     
                     # Update username if login was successful
                     if message.startswith("2:") and "Welcome" in response:
-                        username = message.split(":", 1)[1].strip()
+                        # Extract just the username (before the second colon)
+                        parts = message[2:].strip().split(":", 1)
+                        if len(parts) >= 1:
+                            username = parts[0].strip()
                     
                 except socket.timeout:
                     continue

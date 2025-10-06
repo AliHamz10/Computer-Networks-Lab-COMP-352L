@@ -10,7 +10,15 @@ import threading
 import time
 import random
 from typing import List, Tuple
-from Task_01__auth_client import AuthClient
+# Import AuthClient from the same directory
+import importlib.util
+import os
+
+# Load the auth client module
+spec = importlib.util.spec_from_file_location("auth_client", os.path.join(os.path.dirname(__file__), "Task 01 [auth_client].py"))
+auth_client_module = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(auth_client_module)
+AuthClient = auth_client_module.AuthClient
 
 class TestClient:
     def __init__(self, client_id: int, host: str = '127.0.0.1', port: int = 8000):
@@ -94,7 +102,10 @@ class TestClient:
 def create_test_users() -> List[Tuple[str, str]]:
     """Create some test users for login testing"""
     users = []
-    for i in range(5):  # Create 5 test users
+    # Use the existing testuser that we know exists
+    users.append(("testuser", "testpass"))
+    # Add a few more with predictable names
+    for i in range(4):  # Create 4 more test users
         username = f"existinguser{i+1}"
         password = f"testpass{i+1}"
         users.append((username, password))
@@ -188,7 +199,8 @@ def main():
     print("Lab 06 - Task 01: Multiple Client Test")
     print("Make sure the server is running before starting this test!")
     print(f"Server: {args.host}:{args.port}")
-    input("Press Enter to start the test...")
+    print("Starting test in 3 seconds...")
+    time.sleep(3)
     
     run_concurrent_test(args.clients)
 
