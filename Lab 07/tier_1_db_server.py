@@ -167,6 +167,28 @@ def handle_request(conn, addr):
                 else:
                     response = {"status": "error", "message": "Failed to delete user account"}
         
+        elif action == "search_students":
+            search_term = request.get("search_term", "").strip()
+            
+            if not search_term:
+                response = {"status": "error", "message": "Search term cannot be empty"}
+            else:
+                # Search for students by name (case-insensitive partial match)
+                cur.execute("SELECT id, name, gpa FROM students WHERE LOWER(name) LIKE LOWER(?)", (f"%{search_term}%",))
+                rows = cur.fetchall()
+                
+                if rows:
+                    students = []
+                    for row in rows:
+                        students.append({
+                            "id": row[0],
+                            "name": row[1],
+                            "gpa": row[2]
+                        })
+                    response = {"status": "ok", "data": students, "count": len(students)}
+                else:
+                    response = {"status": "ok", "data": [], "count": 0, "message": "No students found matching the search term"}
+        
         else:
             response = {"status": "error", "message": "Unknown action"}
 

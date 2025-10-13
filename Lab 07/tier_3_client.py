@@ -126,6 +126,42 @@ def get_student_info():
             print("\nOperation cancelled.")
             return
 
+def search_students():
+    print("\n=== Search Students by Name ===")
+    while True:
+        try:
+            search_term = input("Enter student name to search (or 'back' to return): ").strip()
+            if search_term.lower() == "back":
+                return
+            if not search_term:
+                print("Search term cannot be empty!")
+                continue
+            
+            request = {"action": "search_students", "search_term": search_term}
+            response = send_request(request)
+            print("\n[Server Response]:")
+            print(json.dumps(response, indent=4))
+            
+            db_response = response.get("db_response", {})
+            if db_response.get("status") == "ok":
+                students = db_response.get("data", [])
+                count = db_response.get("count", 0)
+                
+                if count > 0:
+                    print(f"\nFound {count} student(s) matching '{search_term}':")
+                    print("-" * 50)
+                    for i, student in enumerate(students, 1):
+                        print(f"{i}. ID: {student['id']}, Name: {student['name']}, GPA: {student['gpa']}")
+                    print("-" * 50)
+                else:
+                    print(f"\nNo students found matching '{search_term}'")
+            else:
+                print(f"Search failed: {db_response.get('message')}")
+            
+        except KeyboardInterrupt:
+            print("\nSearch cancelled.")
+            return
+
 def update_user_info():
     print("\n=== Update User Information ===")
     while True:
@@ -228,11 +264,12 @@ def main():
     print("3. Update User Information")
     print("4. Delete User Account")
     print("5. Get Student Info")
-    print("6. Exit")
+    print("6. Search Students by Name")
+    print("7. Exit")
    
     while True:
         try:
-            choice = input("\nSelect an option (1-6): ").strip()
+            choice = input("\nSelect an option (1-7): ").strip()
             
             if choice == "1":
                 register_user()
@@ -245,6 +282,8 @@ def main():
             elif choice == "5":
                 get_student_info()
             elif choice == "6":
+                search_students()
+            elif choice == "7":
                 request = {"action": "exit"}
                 response = send_request(request)
                 print("\n[Server Response]:")
@@ -252,7 +291,7 @@ def main():
                 print("Goodbye!")
                 break
             else:
-                print("Invalid choice! Please select 1-6.")
+                print("Invalid choice! Please select 1-7.")
                 
         except KeyboardInterrupt:
             print("\n\nGoodbye!")
