@@ -38,6 +38,19 @@ def init_db():
     cur.execute(create_students_table)
     cur.execute(create_users_table)
     
+    # Add new columns to existing users table if they don't exist
+    try:
+        cur.execute("ALTER TABLE users ADD COLUMN address TEXT")
+        print("[DB] Added address column to users table")
+    except sqlite3.OperationalError:
+        print("[DB] Address column already exists")
+    
+    try:
+        cur.execute("ALTER TABLE users ADD COLUMN phone TEXT")
+        print("[DB] Added phone column to users table")
+    except sqlite3.OperationalError:
+        print("[DB] Phone column already exists")
+    
     # Clear users table for testing purposes to ensure unique IDs can be registered
     cur.execute("DELETE FROM users")
     print("[DB] Cleared users table for testing")
