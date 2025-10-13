@@ -53,11 +53,12 @@ def register_user():
             print("\n[Server Response]:")
             print(json.dumps(response, indent=4))
             
-            if response.get("status") == "ok":
+            db_response = response.get("db_response", {})
+            if db_response.get("status") == "ok":
                 print("Registration successful!")
                 return True
             else:
-                print(f"Registration failed: {response.get('message')}")
+                print(f"Registration failed: {db_response.get('message')}")
                 retry = input("Try again? (y/n): ").strip().lower()
                 if retry != 'y':
                     return False
@@ -90,12 +91,13 @@ def login_user():
             print("\n[Server Response]:")
             print(json.dumps(response, indent=4))
             
-            if response.get("status") == "ok":
-                user_data = response.get("data", {})
+            db_response = response.get("db_response", {})
+            if db_response.get("status") == "ok":
+                user_data = db_response.get("data", {})
                 print(f"Login successful! Welcome, {user_data.get('name')}!")
                 return True
             else:
-                print(f"Login failed: {response.get('message')}")
+                print(f"Login failed: {db_response.get('message')}")
                 retry = input("Try again? (y/n): ").strip().lower()
                 if retry != 'y':
                     return False

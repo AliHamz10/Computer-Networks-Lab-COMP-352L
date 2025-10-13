@@ -35,6 +35,11 @@ def init_db():
     cur = conn.cursor()
     cur.execute(create_students_table)
     cur.execute(create_users_table)
+    
+    # Clear users table for testing purposes to ensure unique IDs can be registered
+    cur.execute("DELETE FROM users")
+    print("[DB] Cleared users table for testing")
+    
     cur.execute("SELECT COUNT(*) FROM students")
     if cur.fetchone()[0] == 0:
         cur.executemany("INSERT INTO students VALUES (?, ?, ?)", default_data)
