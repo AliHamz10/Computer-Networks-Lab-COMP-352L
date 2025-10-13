@@ -126,24 +126,125 @@ def get_student_info():
             print("\nOperation cancelled.")
             return
 
+def update_user_info():
+    print("\n=== Update User Information ===")
+    while True:
+        try:
+            username = input("Enter Username: ").strip()
+            if not username:
+                print("Username cannot be empty!")
+                continue
+                
+            password = input("Enter Password: ").strip()
+            if not password:
+                print("Password cannot be empty!")
+                continue
+            
+            print("\nEnter new information (press Enter to skip):")
+            address = input("New Address: ").strip()
+            phone = input("New Phone Number: ").strip()
+            email = input("New Email: ").strip()
+            
+            # Only include non-empty fields in the request
+            request = {
+                "action": "update_user",
+                "username": username,
+                "password": password
+            }
+            
+            if address:
+                request["address"] = address
+            if phone:
+                request["phone"] = phone
+            if email:
+                request["email"] = email
+            
+            response = send_request(request)
+            print("\n[Server Response]:")
+            print(json.dumps(response, indent=4))
+            
+            db_response = response.get("db_response", {})
+            if db_response.get("status") == "ok":
+                print("SUCCESS: User information updated successfully!")
+                return True
+            else:
+                print(f"FAILED: Update failed: {db_response.get('message')}")
+                retry = input("Try again? (y/n): ").strip().lower()
+                if retry != 'y':
+                    return False
+                    
+        except KeyboardInterrupt:
+            print("\nUpdate cancelled.")
+            return False
+
+def delete_user_account():
+    print("\n=== Delete User Account ===")
+    while True:
+        try:
+            username = input("Enter Username: ").strip()
+            if not username:
+                print("Username cannot be empty!")
+                continue
+                
+            password = input("Enter Password: ").strip()
+            if not password:
+                print("Password cannot be empty!")
+                continue
+            
+            # Confirmation prompt
+            confirm = input(f"Are you sure you want to delete account '{username}'? This action cannot be undone! (yes/no): ").strip().lower()
+            if confirm != 'yes':
+                print("Account deletion cancelled.")
+                return False
+            
+            request = {
+                "action": "delete_user",
+                "username": username,
+                "password": password
+            }
+            
+            response = send_request(request)
+            print("\n[Server Response]:")
+            print(json.dumps(response, indent=4))
+            
+            db_response = response.get("db_response", {})
+            if db_response.get("status") == "ok":
+                print("SUCCESS: User account deleted successfully!")
+                return True
+            else:
+                print(f"FAILED: Deletion failed: {db_response.get('message')}")
+                retry = input("Try again? (y/n): ").strip().lower()
+                if retry != 'y':
+                    return False
+                    
+        except KeyboardInterrupt:
+            print("\nDeletion cancelled.")
+            return False
+
 def main():
     print("=== Multi-Tier System Client ===")
     print("1. Register New User")
     print("2. Login")
-    print("3. Get Student Info")
-    print("4. Exit")
+    print("3. Update User Information")
+    print("4. Delete User Account")
+    print("5. Get Student Info")
+    print("6. Exit")
    
     while True:
         try:
-            choice = input("\nSelect an option (1-4): ").strip()
+            choice = input("\nSelect an option (1-6): ").strip()
             
             if choice == "1":
                 register_user()
             elif choice == "2":
                 login_user()
             elif choice == "3":
-                get_student_info()
+                update_user_info()
             elif choice == "4":
+                delete_user_account()
+            elif choice == "5":
+                get_student_info()
+            elif choice == "6":
                 request = {"action": "exit"}
                 response = send_request(request)
                 print("\n[Server Response]:")
@@ -151,7 +252,7 @@ def main():
                 print("Goodbye!")
                 break
             else:
-                print("Invalid choice! Please select 1-4.")
+                print("Invalid choice! Please select 1-6.")
                 
         except KeyboardInterrupt:
             print("\n\nGoodbye!")

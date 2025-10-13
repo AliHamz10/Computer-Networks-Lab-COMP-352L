@@ -23,7 +23,9 @@ def init_db():
         username TEXT UNIQUE NOT NULL,
         password TEXT NOT NULL,
         name TEXT NOT NULL,
-        email TEXT UNIQUE NOT NULL
+        email TEXT UNIQUE NOT NULL,
+        address TEXT,
+        phone TEXT
     );
     """
     default_data = [
@@ -91,13 +93,66 @@ def handle_request(conn, addr):
             username = request.get("username")
             password = request.get("password")
             
-            cur.execute("SELECT id, name, email FROM users WHERE username = ? AND password = ?", 
+            cur.execute("SELECT id, name, email, address, phone FROM users WHERE username = ? AND password = ?", 
                        (username, password))
             row = cur.fetchone()
             if row:
-                response = {"status": "ok", "data": {"id": row[0], "name": row[1], "email": row[2]}}
+                response = {"status": "ok", "data": {"id": row[0], "name": row[1], "email": row[2], "address": row[3], "phone": row[4]}}
             else:
                 response = {"status": "error", "message": "Invalid username or password"}
+        
+        elif action == "update_user":
+            username = request.get("username")
+            password = request.get("password")
+            address = request.get("address")
+            phone = request.get("phone")
+            email = request.get("email")
+            
+            # First verify credentials
+            cur.execute("SELECT id FROM users WHERE username = ? AND password = ?", (username, password))
+            if not cur.fetchone():
+                response = {"status": "error", "message": "Invalid credentials for update"}
+            else:
+                # Update allowed fields only
+                update_fields = []
+                update_values = []
+                
+                if address is not None:
+                    update_fields.append("address = ?")
+                    update_values.append(address)
+                
+                if phone is not None:
+                    update_fields.append("phone = ?")
+                    update_values.append(phone)
+                
+                if email is not None:
+                    update_fields.append("email = ?")
+                    update_values.append(email)
+                
+                if update_fields:
+                    update_values.append(username)
+                    update_query = f"UPDATE users SET {', '.join(update_fields)} WHERE username = ?"
+                    cur.execute(update_query, update_values)
+                    conn_db.commit()
+                    response = {"status": "ok", "message": "User information updated successfully"}
+                else:
+                    response = {"status": "error", "message": "No valid fields to update"}
+        
+        elif action == "delete_user":
+            username = request.get("username")
+            password = request.get("password")
+            
+            # Verify credentials before deletion
+            cur.execute("SELECT id FROM users WHERE username = ? AND password = ?", (username, password))
+            if not cur.fetchone():
+                response = {"status": "error", "message": "Invalid credentials for deletion"}
+            else:
+                cur.execute("DELETE FROM users WHERE username = ? AND password = ?", (username, password))
+                conn_db.commit()
+                if cur.rowcount > 0:
+                    response = {"status": "ok", "message": "User account deleted successfully"}
+                else:
+                    response = {"status": "error", "message": "Failed to delete user account"}
         
         else:
             response = {"status": "error", "message": "Unknown action"}
