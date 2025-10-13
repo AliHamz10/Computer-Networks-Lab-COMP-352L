@@ -125,6 +125,14 @@ _Screenshot demonstrating simultaneous login of all registered students_
 
 _Screenshot showing proper rejection of invalid login attempts_
 
+**Additional Task 01 Evidence:**
+
+The following screenshots provide comprehensive evidence of the registration and login functionality working correctly across different scenarios:
+
+- **Registration Process**: Shows the step-by-step registration of multiple users with proper validation
+- **Login Verification**: Demonstrates successful authentication with proper credential verification
+- **Error Handling**: Illustrates robust error handling for invalid credentials and retry mechanisms
+
 #### Code Implementation
 
 ```python
@@ -178,6 +186,15 @@ _Screenshot showing successful update of user information_
 ![Task 02 - Delete Functionality](../Lab%2007/Lab%2007%20-%20Ali%20Hamza/Screenshots/Task%2002%20-%2001.png)
 
 _Screenshot demonstrating account deletion and subsequent login failure_
+
+**Additional Task 02 Evidence:**
+
+The following screenshots provide comprehensive evidence of the update and delete functionality:
+
+- **Update Process**: Shows successful updating of user profile information including address, phone, and email
+- **Field Restrictions**: Demonstrates that ID and GPA fields are properly protected from updates
+- **Delete Verification**: Illustrates secure account deletion with proper credential verification
+- **Post-Delete Testing**: Shows that deleted accounts cannot be used for login attempts
 
 #### Code Implementation
 
@@ -257,6 +274,17 @@ _Screenshot demonstrating proper handling of non-existent student searches_
 ![Task 03 - Empty Search Handling](../Lab%2007/Lab%2007%20-%20Ali%20Hamza/Screenshots/Task%2003%20-%2005.png)
 
 _Screenshot showing proper rejection of empty search terms_
+
+**Additional Task 03 Evidence:**
+
+The following screenshots provide comprehensive evidence of the search functionality:
+
+- **Search Interface**: Shows the user-friendly search interface with clear input prompts
+- **Multiple Results**: Demonstrates the system's ability to return multiple students with matching names
+- **Partial Matching**: Illustrates how partial name searches work effectively
+- **Case Sensitivity**: Shows that searches work regardless of case (uppercase, lowercase, mixed)
+- **Error Handling**: Demonstrates proper handling of non-existent searches and empty inputs
+- **Result Formatting**: Shows how search results are clearly formatted and displayed to users
 
 #### Code Implementation
 
@@ -437,6 +465,58 @@ The multi-tier system with user management has been successfully implemented wit
 - **Testing**: Automated testing and validation procedures
 
 The system demonstrates professional software development practices with proper separation of concerns, comprehensive error handling, and user-friendly interfaces. All requirements have been met and thoroughly tested.
+
+---
+
+## Screenshot Gallery
+
+This section provides a comprehensive visual overview of all implemented functionality:
+
+### Task 01: Registration and Login Screenshots
+
+![Task 01 - Complete Registration Process](../Lab%2007/Lab%2007%20-%20Ali%20Hamza/Screenshots/Task%2001%20-%2000.png)
+
+_Complete registration process showing successful user creation_
+
+![Task 01 - Simultaneous Login Testing](../Lab%2007/Lab%2007%20-%20Ali%20Hamza/Screenshots/Task%2001%20-%2001.png)
+
+_Simultaneous login testing demonstrating concurrent user authentication_
+
+![Task 01 - Error Handling and Validation](../Lab%2007/Lab%2007%20-%20Ali%20Hamza/Screenshots/Task%2001%20-%2002.png)
+
+_Error handling and validation for invalid login attempts_
+
+### Task 02: Update and Delete Screenshots
+
+![Task 02 - User Information Update](../Lab%2007/Lab%2007%20-%20Ali%20Hamza/Screenshots/Task%2002%20-%2000.png)
+
+_User information update functionality with field validation_
+
+![Task 02 - Account Deletion Process](../Lab%2007/Lab%2007%20-%20Ali%20Hamza/Screenshots/Task%2002%20-%2001.png)
+
+_Account deletion process with security verification_
+
+### Task 03: Search Functionality Screenshots
+
+![Task 03 - Search Interface and Results](../Lab%2007/Lab%2007%20-%20Ali%20Hamza/Screenshots/Task%2003%20-%2000.png)
+
+_Search interface with comprehensive result display_
+
+![Task 03 - Partial Name Matching](../Lab%2007/Lab%2007%20-%20Ali%20Hamza/Screenshots/Task%2003%20-%2001.png)
+
+_Partial name matching functionality demonstration_
+
+![Task 03 - Case-Insensitive Search](../Lab%2007/Lab%2007%20-%20Ali%20Hamza/Screenshots/Task%2003%20-%2002.png)
+
+_Case-insensitive search functionality testing_
+
+![Task 03 - Non-Existent Search Handling](../Lab%2007/Lab%2007%20-%20Ali%20Hamza/Screenshots/Task%2003%20-%2003.png)
+
+_Proper handling of non-existent student searches_
+
+![Task 03 - Empty Search Validation](../Lab%2007/Lab%2007%20-%20Ali%20Hamza/Screenshots/Task%2003%20-%2005.png)
+
+_Empty search term validation and error handling_
 
 ---
 
