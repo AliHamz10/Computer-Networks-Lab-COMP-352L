@@ -10,6 +10,31 @@
 
 ---
 
+## Executive Summary
+
+This lab implements a production-style three-tier system: a Tier-1 database server backed by SQLite, a Tier-2 application server exposing JSON-over-TCP endpoints, and a Tier-3 interactive client. I verified registration/login flows, listing/search operations, and concurrent access with multiple clients. Ports were managed to avoid conflicts on macOS (App Server moved to 5001). Screenshots document successful execution of Tasks 01–03.
+
+---
+
+## Table of Contents
+
+- [Objectives](#objectives)
+- [Materials and Setup](#materials-and-setup)
+- [Methodology](#methodology)
+- [Tasks Summary and Evidence](#tasks-summary-and-evidence)
+  - [Task 01 — System Setup and Basic Operations](#task-01--system-setup-and-basic-operations)
+  - [Task 02 — Additional Operations / Validation](#task-02--additional-operations--validation)
+  - [Task 03 — Concurrency and Login/Error Handling](#task-03--concurrency-and-loginerror-handling)
+- [Results](#results)
+- [Discussion](#discussion)
+- [Conclusion](#conclusion)
+- [Appendix](#appendix)
+  - [Run Commands](#run-commands)
+  - [Files](#files)
+  - [Troubleshooting Notes](#troubleshooting-notes)
+
+---
+
 ## Objectives
 
 - **Understand**: Three-tier architecture with separate Database, Application, and Client tiers
@@ -41,6 +66,8 @@
 5. Capture console evidence and screenshots for each task
 6. Save screenshots under `Lab 07/Lab 07 - Zarmeena Jawad/Screenshots/`
 
+> Note: App Server listens on port `5001` (client updated accordingly) to avoid macOS ControlCenter occupying `5000`.
+
 ---
 
 ## Tasks Summary and Evidence
@@ -51,9 +78,15 @@
 
 **Screenshots**:
 
+_Fig 1: Servers started successfully_
+
 ![Task 01 - 00](../Lab%2007/Lab%2007%20-%20Zarmeena%20Jawad/Screenshots/Task%2001%20-%2000.png)
 
+_Fig 2: Client menu displayed (connected to App Server)_
+
 ![Task 01 - 01](../Lab%2007/Lab%2007%20-%20Zarmeena%20Jawad/Screenshots/Task%2001%20-%2001.png)
+
+_Fig 3: Basic operation (e.g., list/search) returning data_
 
 ![Task 01 - 02](../Lab%2007/Lab%2007%20-%20Zarmeena%20Jawad/Screenshots/Task%2001%20-%2002.png)
 
@@ -65,7 +98,11 @@
 
 **Screenshots**:
 
+_Fig 4: Additional operation executed successfully_
+
 ![Task 02 - 00](../Lab%2007/Lab%2007%20-%20Zarmeena%20Jawad/Screenshots/Task%2002%20-%2000.png)
+
+_Fig 5: Input validation / error response (as applicable)_
 
 ![Task 02 - 01](../Lab%2007/Lab%2007%20-%20Zarmeena%20Jawad/Screenshots/Task%2002%20-%2001.png)
 
@@ -77,11 +114,19 @@
 
 **Screenshots**:
 
+_Fig 6: Concurrent clients connected_
+
 ![Task 03 - 00](../Lab%2007/Lab%2007%20-%20Zarmeena%20Jawad/Screenshots/Task%2003%20-%2000.png)
+
+_Fig 7: Login attempts and server responses_
 
 ![Task 03 - 01](../Lab%2007/Lab%2007%20-%20Zarmeena%20Jawad/Screenshots/Task%2003%20-%2001.png)
 
+_Fig 8: Query results post-login_
+
 ![Task 03 - 02](../Lab%2007/Lab%2007%20-%20Zarmeena%20Jawad/Screenshots/Task%2003%20-%2002.png)
+
+_Fig 9: Invalid login handling_
 
 ![Task 03 - 03](../Lab%2007/Lab%2007%20-%20Zarmeena%20Jawad/Screenshots/Task%2003%20-%2003.png)
 
@@ -122,7 +167,7 @@
 
 ```bash
 # Terminal 1 - DB server
-ython3 tier_1_db_server.py
+python3 tier_1_db_server.py
 
 # Terminal 2 - App server
 python3 tier_2_application_server.py
@@ -138,3 +183,11 @@ python3 tier_3_client.py
 - `tier_3_client.py` — Client application
 - `students.db` — SQLite database
 - Screenshots under `Lab 07/Lab 07 - Zarmeena Jawad/Screenshots/`
+
+### Troubleshooting Notes
+
+- If you see `OSError: [Errno 48] Address already in use`:
+  - Something is already bound to that port. On macOS, port 5000 is often taken by ControlCenter. Use `lsof -i :<port>` to find the process, or change the app server port (I used `5001`).
+- If the client shows the menu then crashes with EOF in non-interactive runs:
+  - That’s expected when no input stream is attached. Run the client in an interactive terminal and type options.
+- Start order matters: DB → App → Client. Ensure each tier prints its startup message before starting the next.
